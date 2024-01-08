@@ -1,13 +1,14 @@
-image: docker:18
-
-services:
-  - docker:20-dind
-
+default:
+  image: docker:18
+  services:
+    - docker:20-dind
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_HOST: tcp://localhost:2375/
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}_${CI_COMMIT_SHORT_SHA}
-  NGCONTAINER_RELEASE_IMAGE: $CI_REGISTRY/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:ngx
+
 
 
 cache:
@@ -15,7 +16,6 @@ cache:
   paths:
       - images/
 #  untracked: true
-
 
 stages:
   - package
@@ -25,16 +25,10 @@ stages:
 
 
 
-
 package:
-  image: docker:18
-  before_script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   stage: package
   script:
     #- ls -la client-portal/target
     #- ls -la ./
     - docker build --pull -t $CONTAINER_RELEASE_IMAGE .
     - docker push $CONTAINER_RELEASE_IMAGE
-
-
