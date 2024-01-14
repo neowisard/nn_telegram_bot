@@ -7,7 +7,8 @@ default:
 variables:
   DOCKER_OPTS: "--insecure-registry CI_REGISTRY"
   DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: ""
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_VERIFY: 1
   DOCKER_HOST: unix:///var/run/docker/containerd/containerd.sock
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}_${CI_COMMIT_SHORT_SHA}
 
