@@ -5,7 +5,7 @@ default:
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 variables:
-  DOCKER_OPTS: "--insecure-registry CI_REGISTRY --tls=false""
+  DOCKER_OPTS: "--insecure-registry CI_REGISTRY --tls=false"
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
   DOCKER_CERT_PATH: ""
