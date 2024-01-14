@@ -40,12 +40,12 @@ user_semaphores = {}
 user_tasks = {}
 
 HELP_MESSAGE = """Commands:
-⚪ /retry – Regenerate last bot answer
-⚪ /new – Start new dialog
-⚪ /mode – Select chat mode
-⚪ /settings – Show settings
-⚪ /balance – Show balance
-⚪ /help – Show help
+⚪ /retry – Переответить
+⚪ /new – Начать новую тему
+⚪ /mode – Выбрать режим чата
+⚪ /settings – Настройки
+⚪ /balance – Баланс бесконечен
+⚪ /help – Помогите !
 
 🎨 Generate images from text prompts in <b>👩‍🎨 Artist</b> /mode
 👥 Add bot to <b>group chat</b>: /help_group_chat
