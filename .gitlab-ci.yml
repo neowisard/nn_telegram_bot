@@ -1,8 +1,8 @@
 default:
   image: docker:20
   services:
-    - docker:20-dind
-    - alias: docker
+    - name: docker:20-dind
+      alias: docker
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 variables:
