@@ -1,5 +1,5 @@
 default:
-  image: docker:20
+  image: docker:stable
   services:
     - name: docker:20-dind
       alias: dind
