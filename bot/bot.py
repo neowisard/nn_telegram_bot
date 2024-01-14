@@ -40,7 +40,7 @@ user_semaphores = {}
 user_tasks = {}
 
 HELP_MESSAGE = """Commands:
-⚪ /retry – Переответить
+⚪ /retry – Ответить иначе
 ⚪ /new – Начать новую тему
 ⚪ /mode – Выбрать режим чата
 ⚪ /settings – Настройки
