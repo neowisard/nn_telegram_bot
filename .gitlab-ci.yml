@@ -1,7 +1,7 @@
 default:
   image: docker:stable
   services:
-    - name: docker:18-dind
+    - name: docker:dind
       alias: dind
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
