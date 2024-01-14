@@ -135,3 +135,10 @@ config/config.env
 docker-compose.dev.yml
 
 mongodb/
+/.idea/misc.xml
+/.idea/encodings.xml
+/.idea/modules.xml
+/.idea/nn_telegram_bot.iml
+/.idea/PipelineViewerConfig.xml
+/.idea/vcs.xml
+/.idea/.gitignore
