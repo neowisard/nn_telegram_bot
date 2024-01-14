@@ -169,7 +169,7 @@ async def retry_handle(update: Update, context: CallbackContext):
 
     dialog_messages = db.get_dialog_messages(user_id, dialog_id=None)
     if len(dialog_messages) == 0:
-        await update.message.reply_text("No message to retry 🤷‍♂️")
+        await update.message.reply_text("Нет сообщений для повтора 🤷‍♂️")
         return
 
     last_dialog_message = dialog_messages.pop()
@@ -209,7 +209,7 @@ async def message_handle(update: Update, context: CallbackContext, message=None,
         if use_new_dialog_timeout:
             if (datetime.now() - db.get_user_attribute(user_id, "last_interaction")).seconds > config.new_dialog_timeout and len(db.get_dialog_messages(user_id)) > 0:
                 db.start_new_dialog(user_id)
-                await update.message.reply_text(f"Starting new dialog due to timeout (<b>{config.chat_modes[chat_mode]['name']}</b> mode) ✅", parse_mode=ParseMode.HTML)
+                await update.message.reply_text(f"Начинаем новую беседу по истечении времени (<b>{config.chat_modes[chat_mode]['name']}</b> mode) ✅", parse_mode=ParseMode.HTML)
         db.set_user_attribute(user_id, "last_interaction", datetime.now())
 
         # in case of CancelledError
@@ -286,7 +286,7 @@ async def message_handle(update: Update, context: CallbackContext, message=None,
             raise
 
         except Exception as e:
-            error_text = f"Something went wrong during completion. Reason: {e}"
+            error_text = f"Ну вот опять, что-то пошло не так. Reason: {e}"
             logger.error(error_text)
             await update.message.reply_text(error_text)
             return
@@ -294,9 +294,9 @@ async def message_handle(update: Update, context: CallbackContext, message=None,
         # send message if some messages were removed from the context
         if n_first_dialog_messages_removed > 0:
             if n_first_dialog_messages_removed == 1:
-                text = "✍️ <i>Note:</i> Your current dialog is too long, so your <b>first message</b> was removed from the context.\n Send /new command to start new dialog"
+                text = "✍️ <i>Note:</i> Ваш диалог слишком велик, ваше <b>первое сообщение </b> было удалено из беседы.\n Выберите /new команду для нового диалога"
             else:
-                text = f"✍️ <i>Note:</i> Your current dialog is too long, so <b>{n_first_dialog_messages_removed} first messages</b> were removed from the context.\n Send /new command to start new dialog"
+                text = f"✍️ <i>Заметка:</i>  Ваш диалог слишком велик, итак <b>{n_first_dialog_messages_removed} первых сообщений</b> были удалены из беседы.\n Выберите /new для начала нового диалога"
             await update.message.reply_text(text, parse_mode=ParseMode.HTML)
 
     async with user_semaphores[user_id]:
@@ -319,8 +319,8 @@ async def is_previous_message_not_answered_yet(update: Update, context: Callback
 
     user_id = update.message.from_user.id
     if user_semaphores[user_id].locked():
-        text = "⏳ Please <b>wait</b> for a reply to the previous message\n"
-        text += "Or you can /cancel it"
+        text = "⏳ Пожалста <b>дождитесь</b> ответа на предыдущее сообщение\n"
+        text += "или отмените  /cancel его"
         await update.message.reply_text(text, reply_to_message_id=update.message.id, parse_mode=ParseMode.HTML)
         return True
     else:
@@ -371,7 +371,7 @@ async def generate_image_handle(update: Update, context: CallbackContext, messag
     try:
         image_urls = await openai_utils.generate_images(message, n_images=config.return_n_generated_images, size=config.image_size)
     except openai.error.InvalidRequestError as e:
-        if str(e).startswith("Your request was rejected as a result of our safety system"):
+        if str(e).startswith("Запрос отклонен, стремный он какой то):
             text = "🥲 Your request <b>doesn't comply</b> with OpenAI's usage policies.\nWhat did you write there, huh?"
             await update.message.reply_text(text, parse_mode=ParseMode.HTML)
             return
@@ -598,8 +598,8 @@ async def show_balance_handle(update: Update, context: CallbackContext):
     total_n_spent_dollars += voice_recognition_n_spent_dollars
 
 
-    text = f"You spent <b>{total_n_spent_dollars:.03f}$</b>\n"
-    text += f"You used <b>{total_n_used_tokens}</b> tokens\n\n"
+    text = f"Потратил <b>{total_n_spent_dollars:.03f}$</b>\n"
+    text += f"Использовал <b>{total_n_used_tokens}</b> tokens\n\n"
     text += details_text
 
     await update.message.reply_text(text, parse_mode=ParseMode.HTML)
@@ -620,7 +620,7 @@ async def error_handle(update: Update, context: CallbackContext) -> None:
         tb_string = "".join(tb_list)
         update_str = update.to_dict() if isinstance(update, Update) else str(update)
         message = (
-            f"An exception was raised while handling an update\n"
+            f"Ошибочка вышла\n"
             f"<pre>update = {html.escape(json.dumps(update_str, indent=2, ensure_ascii=False))}"
             "</pre>\n\n"
             f"<pre>{html.escape(tb_string)}</pre>"
@@ -638,12 +638,12 @@ async def error_handle(update: Update, context: CallbackContext) -> None:
 
 async def post_init(application: Application):
     await application.bot.set_my_commands([
-        BotCommand("/new", "Start new dialog"),
-        BotCommand("/mode", "Select chat mode"),
-        BotCommand("/retry", "Re-generate response for previous query"),
-        BotCommand("/balance", "Show balance"),
-        BotCommand("/settings", "Show settings"),
-        BotCommand("/help", "Show help message"),
+        BotCommand("/new", "Начать тему"),
+        BotCommand("/mode", "Сменить ассистента"),
+        BotCommand("/retry", "Ответить иначе"),
+#        BotCommand("/balance", "Баланс бесконечен"),
+        BotCommand("/settings", "Настройки"),
+        BotCommand("/help", "Помощь"),
     ])
 
 def run_bot() -> None:
@@ -685,7 +685,7 @@ def run_bot() -> None:
     application.add_handler(CommandHandler("settings", settings_handle, filters=user_filter))
     application.add_handler(CallbackQueryHandler(set_settings_handle, pattern="^set_settings"))
 
-    application.add_handler(CommandHandler("balance", show_balance_handle, filters=user_filter))
+ #   application.add_handler(CommandHandler("balance", show_balance_handle, filters=user_filter))
 
     application.add_error_handler(error_handle)
 
