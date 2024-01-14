@@ -44,7 +44,6 @@ HELP_MESSAGE = """Commands:
 ⚪ /new – Начать новую тему
 ⚪ /mode – Выбрать режим чата
 ⚪ /settings – Настройки
-⚪ /balance – Баланс бесконечен
 ⚪ /help – Помогите !
 
 🎨 Generate images from text prompts in <b>👩‍🎨 Artist</b> /mode
@@ -371,7 +370,7 @@ async def generate_image_handle(update: Update, context: CallbackContext, messag
     try:
         image_urls = await openai_utils.generate_images(message, n_images=config.return_n_generated_images, size=config.image_size)
     except openai.error.InvalidRequestError as e:
-        if str(e).startswith("Запрос отклонен, стремный он какой то):
+        if str(e).startswith("Запрос отклонен, стремный он какой то):"
             text = "🥲 Your request <b>doesn't comply</b> with OpenAI's usage policies.\nWhat did you write there, huh?"
             await update.message.reply_text(text, parse_mode=ParseMode.HTML)
             return
