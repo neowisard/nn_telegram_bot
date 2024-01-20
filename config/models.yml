@@ -1,4 +1,4 @@
-available_text_models: ["gpt-3.5-turbo-16k",  "dalle-2", "whisper"]
+available_text_models: ["gpt-3.5-turbo-16k",  "dalle-2", "whisper","text-davinci-003"]
 
 info:
 
@@ -15,8 +15,6 @@ info:
       Smart: 3
       Fast: 5
       Cheap: 5
-
-
 
   text-davinci-003:
     type: completion
