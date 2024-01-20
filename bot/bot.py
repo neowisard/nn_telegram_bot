@@ -285,7 +285,7 @@ async def message_handle(update: Update, context: CallbackContext, message=None,
             raise
 
         except Exception as e:
-            error_text = f"Ну вот опять, что-то идет не так. Reason: {e}"
+            error_text = f"Ну вот опять, что-то идет не так.Попробуйте повторить /retry . Reason: {e}"
             logger.error(error_text)
             await update.message.reply_text(error_text)
             return
