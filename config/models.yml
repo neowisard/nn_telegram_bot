@@ -1,7 +1,6 @@
-available_text_models: ["gpt-3.5-turbo-16k",  "dalle-2", "whisper","text-davinci-003"]
+available_text_models: ["gpt-3.5-turbo-16k", "dalle-2", "whisper", "text-davinci-003"]
 
 info:
-
 
   gpt-3.5-turbo-16k:
     type: chat_completion
