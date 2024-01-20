@@ -46,9 +46,9 @@ HELP_MESSAGE = """Commands:
 ⚪ /settings – Настройки
 ⚪ /help – Помогите !
 
-🎨 Generate images from text prompts in <b>👩‍🎨 Artist</b> /mode
+🎨 Создавать картинки в режиме  <b>👩‍🎨 Художник</b> /mode
 👥 Add bot to <b>group chat</b>: /help_group_chat
-🎤 You can send <b>Voice Messages</b> instead of text
+🎤 Вы можете отправлять <b>голосовые сообщения</b> вместо текста
 """
 
 HELP_GROUP_CHAT_MESSAGE = """You can add bot to any <b>group chat</b> to help and entertain its participants!
@@ -223,7 +223,7 @@ async def message_handle(update: Update, context: CallbackContext, message=None,
             await update.message.chat.send_action(action="typing")
 
             if _message is None or len(_message) == 0:
-                 await update.message.reply_text("🥲 You sent <b>empty message</b>. Please, try again!", parse_mode=ParseMode.HTML)
+                 await update.message.reply_text("🥲 Вы отправили <b>пустое сообщение</b>. Пожалуйста, исправьте!", parse_mode=ParseMode.HTML)
                  return
 
             dialog_messages = db.get_dialog_messages(user_id, dialog_id=None)
@@ -260,7 +260,7 @@ async def message_handle(update: Update, context: CallbackContext, message=None,
                 try:
                     await context.bot.edit_message_text(answer, chat_id=placeholder_message.chat_id, message_id=placeholder_message.message_id, parse_mode=parse_mode)
                 except telegram.error.BadRequest as e:
-                    if str(e).startswith("Message is not modified"):
+                    if str(e).startswith("Сообщение не отредактировано"):
                         continue
                     else:
                         await context.bot.edit_message_text(answer, chat_id=placeholder_message.chat_id, message_id=placeholder_message.message_id)
@@ -285,7 +285,7 @@ async def message_handle(update: Update, context: CallbackContext, message=None,
             raise
 
         except Exception as e:
-            error_text = f"Ну вот опять, что-то пошло не так. Reason: {e}"
+            error_text = f"Ну вот опять, что-то идет не так. Reason: {e}"
             logger.error(error_text)
             await update.message.reply_text(error_text)
             return
@@ -305,7 +305,7 @@ async def message_handle(update: Update, context: CallbackContext, message=None,
         try:
             await task
         except asyncio.CancelledError:
-            await update.message.reply_text("✅ Canceled", parse_mode=ParseMode.HTML)
+            await update.message.reply_text("✅ Отменено", parse_mode=ParseMode.HTML)
         else:
             pass
         finally:
@@ -318,7 +318,7 @@ async def is_previous_message_not_answered_yet(update: Update, context: Callback
 
     user_id = update.message.from_user.id
     if user_semaphores[user_id].locked():
-        text = "⏳ Пожалста <b>дождитесь</b> ответа на предыдущее сообщение\n"
+        text = "⏳ Пжалста <b>дождитесь</b> ответа на предыдущее сообщение\n"
         text += "или отмените  /cancel его"
         await update.message.reply_text(text, reply_to_message_id=update.message.id, parse_mode=ParseMode.HTML)
         return True
@@ -370,7 +370,7 @@ async def generate_image_handle(update: Update, context: CallbackContext, messag
     try:
         image_urls = await openai_utils.generate_images(message, n_images=config.return_n_generated_images, size=config.image_size)
     except openai.error.InvalidRequestError as e:
-        if str(e).startswith("Запрос отклонен, стремный он какой то):"
+        if str(e).startswith("Запрос отклонен, стремный он какой то"):
             text = "🥲 Your request <b>doesn't comply</b> with OpenAI's usage policies.\nWhat did you write there, huh?"
             await update.message.reply_text(text, parse_mode=ParseMode.HTML)
             return
@@ -393,7 +393,7 @@ async def new_dialog_handle(update: Update, context: CallbackContext):
     db.set_user_attribute(user_id, "last_interaction", datetime.now())
 
     db.start_new_dialog(user_id)
-    await update.message.reply_text("Starting new dialog ✅")
+    await update.message.reply_text("Начинаем новую беседу ✅")
 
     chat_mode = db.get_user_attribute(user_id, "current_chat_mode")
     await update.message.reply_text(f"{config.chat_modes[chat_mode]['welcome_message']}", parse_mode=ParseMode.HTML)
@@ -409,12 +409,12 @@ async def cancel_handle(update: Update, context: CallbackContext):
         task = user_tasks[user_id]
         task.cancel()
     else:
-        await update.message.reply_text("<i>Nothing to cancel...</i>", parse_mode=ParseMode.HTML)
+        await update.message.reply_text("<i>Нечего отменять...</i>", parse_mode=ParseMode.HTML)
 
 
 def get_chat_mode_menu(page_index: int):
     n_chat_modes_per_page = config.n_chat_modes_per_page
-    text = f"Select <b>chat mode</b> ({len(config.chat_modes)} modes available):"
+    text = f"Выберите <b>ассистента</b> ({len(config.chat_modes)} из свободных):"
 
     # buttons
     chat_mode_keys = list(config.chat_modes.keys())

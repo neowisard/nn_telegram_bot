@@ -10,7 +10,7 @@ variables:
   DOCKER_TLS_CERTDIR: ""
   DOCKER_CERT_PATH: ""
   DOCKER_TLS_VERIFY: 0
-  DOCKER_HOST: unix:///var/run/docker/containerd/containerd.sock
+  DOCKER_HOST: tcp://localhost:2735
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${CI_BUILD_REF_NAME}_${CI_COMMIT_SHORT_SHA}
 
 
