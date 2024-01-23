@@ -56,7 +56,7 @@ class ChatGPT:
                 n_input_tokens, n_output_tokens = r.usage.prompt_tokens, r.usage.completion_tokens
             except openai.error.InvalidRequestError as e:  # too many tokens
                 if len(dialog_messages) == 0:
-                    raise ValueError("Dialog messages is reduced to zero, but still has too many tokens to make completion") from e
+                    raise ValueError("Контекст слишком велик, начните беседу заново") from e
 
                 # forget first message in dialog_messages
                 dialog_messages = dialog_messages[1:]
