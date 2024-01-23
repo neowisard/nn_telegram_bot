@@ -1,4 +1,4 @@
-available_text_models: ["gpt-3.5-turbo-16k"]
+available_text_models: ["text-davinci-003","gpt-3.5-turbo-16k"]
 
 info:
   gpt-3.5-turbo:
