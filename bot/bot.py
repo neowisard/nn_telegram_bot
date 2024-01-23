@@ -134,7 +134,7 @@ async def start_handle(update: Update, context: CallbackContext):
     db.set_user_attribute(user_id, "last_interaction", datetime.now())
     db.start_new_dialog(user_id)
 
-    reply_text = "Hi! I'm <b>ChatGPT</b> bot implemented with OpenAI API 🤖\n\n"
+    reply_text = "Привет , я <b>бот</b> реализованный с помощью OpenAI API 🤖\n\n"
     reply_text += HELP_MESSAGE
 
     await update.message.reply_text(reply_text, parse_mode=ParseMode.HTML)
@@ -285,7 +285,7 @@ async def message_handle(update: Update, context: CallbackContext, message=None,
             raise
 
         except Exception as e:
-            error_text = f"Ну вот опять, что-то идет не так.Попробуйте повторить /retry . Reason: {e}"
+            error_text = f"Ну вот опять, что-то идет не так. Попробуйте повторить /retry . Reason: {e}"
             logger.error(error_text)
             await update.message.reply_text(error_text)
             return
@@ -293,7 +293,7 @@ async def message_handle(update: Update, context: CallbackContext, message=None,
         # send message if some messages were removed from the context
         if n_first_dialog_messages_removed > 0:
             if n_first_dialog_messages_removed == 1:
-                text = "✍️ <i>Note:</i> Ваш диалог слишком велик, ваше <b>первое сообщение </b> было удалено из беседы.\n Выберите /new команду для нового диалога"
+                text = "✍️ <i>Заметка:</i> Ваш диалог слишком велик, ваше <b>первое сообщение </b> было удалено из беседы.\n Выберите /new команду для нового диалога"
             else:
                 text = f"✍️ <i>Заметка:</i>  Ваш диалог слишком велик, итак <b>{n_first_dialog_messages_removed} первых сообщений</b> были удалены из беседы.\n Выберите /new для начала нового диалога"
             await update.message.reply_text(text, parse_mode=ParseMode.HTML)
@@ -510,7 +510,7 @@ def get_settings_menu(user_id: int):
     for score_key, score_value in score_dict.items():
         text += "🟢" * score_value + "⚪️" * (5 - score_value) + f" – {score_key}\n\n"
 
-    text += "\nSelect <b>model</b>:"
+    text += "\nВыберите <b>модель</b>:"
 
     # buttons to choose models
     buttons = []
