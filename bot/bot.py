@@ -62,7 +62,7 @@ To get a reply from the bot in the chat – @ <b>tag</b> it or <b>reply</b> to i
 For example: "{bot_username} write a poem about Telegram"
 """
 
-DEFAULT_TIMEOUT = 15
+DEFAULT_TIMEOUT = 300
 DEFAULT_RETRY_TIMEOUT = 20
 def split_text_into_chunks(text, chunk_size):
     for i in range(0, len(text), chunk_size):
@@ -607,12 +607,12 @@ async def show_balance_handle(update: Update, context: CallbackContext):
 
 async def edited_message_handle(update: Update, context: CallbackContext):
     if update.edited_message.chat.type == "private":
-        text = "🥲 Unfortunately, message <b>editing</b> is not supported"
+        text = "🥲 К сожалению,  <b>редактирование</b> не поддерживается"
         await update.edited_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
 async def error_handle(update: Update, context: CallbackContext) -> None:
-    logger.error(msg="Exception while handling an update:", exc_info=context.error)
+    logger.error(msg="Ошибка случилась :", exc_info=context.error)
 
     try:
         # collect error message
