@@ -62,8 +62,8 @@ To get a reply from the bot in the chat – @ <b>tag</b> it or <b>reply</b> to i
 For example: "{bot_username} write a poem about Telegram"
 """
 
-DEFAULT_TIMEOUT = 300
-DEFAULT_RETRY_TIMEOUT = 20
+DEFAULT_TIMEOUT = 900
+DEFAULT_RETRY_TIMEOUT = 60
 def split_text_into_chunks(text, chunk_size):
     for i in range(0, len(text), chunk_size):
         yield text[i:i + chunk_size]
